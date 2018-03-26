@@ -1,13 +1,54 @@
+.form {
+  border-radius: 20px;
+  background: white;
+  max-width: 270px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 8px 0;
+}
+.form input {
+ 
+  margin: 0 0 15px;
+  padding: 15px;
+  font-size: 14px;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+}
+.form button {
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  background: #ff4a00;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  font-family: arial;
+}
+.form .message {
+  color: gray;
+  font-size: 12px;
+}
+.form .message a {
+  color: orange;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
 #mainLogo{
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
-
+#home{
+	display: none;
+}
 #form {
 	text-align: center;
-	padding-top: 10;
-	padding-bottom: 40;
+	padding-top: 40;
+	padding-bottom: 25;
 }
 
 #submit{

@@ -2,10 +2,43 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+	<!--<div id="first">
+		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
+
+
+		<div id="all">
+		    <label for="uname"><b>Username</b></label>
+		    <input type="text" placeholder="Enter Username" name="uname" required>
+
+		    <label for="psw"><b>Password</b></label>
+		    <input type="password" placeholder="Enter Password" name="psw" required>
+
+		    <button id="login" type="submit">Login</button>
+	  </div>
+	</div>-->
+	<div class="login-page">
+		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
+	  <div class="form">
+	    <form class="register-form">
+	      <input type="text" placeholder="username"/>
+	      <input type="password" placeholder="password"/>
+	      <input type="text" placeholder="email address"/>
+	      <button>CREATE</button>
+	      <p class="message">Already registered? <a href="#">Sign In</a></p>
+	    </form>
+	    <form class="login-form">
+	      <input type="text" placeholder="username"/>
+	      <input type="password" placeholder="password"/>
+	      <button>LOGIN</button>
+	      <p class="message">Not registered? <a href="#">Create an account</a></p>
+	    </form>
+	  </div>
+	</div>
+
 	<div id="home">
 	  <img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
 	  <div id="form">
-		<input id="search" type="text" name="firstname" placeholder="Enter an ingredient to search">
+		<input id="search" type="text" name="firstname" placeholder="Enter an ingredient...">
 		<input id="submit" type="image" name="submit" src="submit.png" alt="Submit"/>
 	  </div>
 	  <img id="or" src="or.png" alt="or">
@@ -117,6 +150,13 @@
 	var used = [];
 	var url_g = "";
 	
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "fast");
+});
+$("#login").on("click", function(){ 
+		$("#first").hide("fast", function(){ 
+			$("#home").show()})});
+
 	$("#submit").on("click", function(){ 
 		$("#home").hide("fast", function(){ 
 			$("#list").text(" Ingredient list:  "+getParams(", "));
