@@ -1,0 +1,191 @@
+#mainLogo{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#form {
+	text-align: center;
+	padding-top: 10;
+	padding-bottom: 40;
+}
+
+#submit{
+	height: 50;
+	width: 50;
+	vertical-align: middle;
+}
+
+#search{
+	font-size: 25;
+	height: 50;
+	width: 400;
+	vertical-align: middle;
+}
+
+#or {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 150;
+}
+
+#new_recipe {
+	width: 230;
+    height: 50;
+	margin-top: 40;
+	color: white;
+	background-color: ff4a00;
+    border-style: none;
+    border-color: ff4a00;
+	font-size: 25;
+    font-family: arial;
+}
+
+body::after {
+  content: "";
+  background: url(background.jpg);
+  opacity: 0.2;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1; 
+  background-size: 60%;  
+}
+
+#miniLogo{
+	padding:15px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width:20%;
+}
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 10px;
+	border-style: solid;
+	border-color: transparent;
+	font-family: sans-serif;
+	display: none;
+}
+
+.item {
+	border-radius: 25px;
+	text-shadow: 2px 2px #FF5733;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: darkorange;
+	display: table;
+	width: 100%;
+	border-style: solid;
+	border-width: thin;
+	border-color: white;
+	color: white;
+}
+
+.ingredient-container{
+	padding :0.3%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+}
+
+.button-wrapper {
+	border-radius: 25px;
+	background: darkorange;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.button-wrapper input{
+	
+	border-radius: 25px;
+	color:#a2e8da; 
+	background-color:white; 
+	font-weight:bold; 
+	font-size: 100%; 
+	
+}
+
+.header-wrapper {
+	border-radius: 25px;
+	padding: 5px;
+	background: darkoragne;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.additional-ingredient {
+	border-radius: 10px;
+	padding: 10px;
+	background: #a2e8da;
+	display: table;
+	width: 47.7%;
+	font-weight: bold;
+	font-size: 100%;
+	text-align: center;
+	color: white;
+	margin: 10px;
+	cursor: pointer;
+}
+
+input[type=button] {
+	display: block;
+	width: 50%;
+	margin: 0 auto;
+}
+
+h4{
+	padding-left:10px;
+}
+h3{
+	color:orange;
+	border-color: transparent;
+	} 
+
+th{
+	border-radius: 25px;
+	padding: 10px;
+	background: #a2e8da;
+	border-style: solid;
+	border-width: thin;
+	border-color: white;
+	font-weight: bold;
+	font-size: 100%;
+	text-align: center;
+	color: red;
+}
+
+td{
+	border-radius: 10px;
+	padding: 10px;
+	background: #a2e8da;
+	border-style: solid;
+	border-width: thin;
+	border-color: white;
+	font-size: 100%;
+	font-weight:bold; 
+	text-align: center;
+	color: white;
+}
+
+.toppage {
+	display: none;
+}
+
+.recipes {
+	display: none;
+}
+.recCol-1{
+	background: transparent;
+	border-color: transparent;
+}
+  
+table{width: 100%;}
