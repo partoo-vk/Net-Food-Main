@@ -46,9 +46,10 @@
 	display: none;
 }
 
-.login-page{
+#new-recipe{
 	display: none;
 }
+
 #form {
 	text-align: center;
 	padding-top: 40;
