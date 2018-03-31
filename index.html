@@ -19,7 +19,6 @@
 	      Recipe name: <input type="text" name="name"/>
 		  Recipe URL: <input type="text" name="recipe"/>
 		  Photo URL: <input type="text" name="photo"/>
-		  Ingredients (separated by commas): <input type="text" name="ingredients"/>
 		  Rating : <select name="rating">
 			  <option value="5">5</option>
 			  <option value="4">4</option>
@@ -138,22 +137,18 @@
 	var ingredients = [];
 	var used = [];
 	var url_g = "";
-	
 	$('#new_recipe').on("click", function(){ 
 		$("#home").hide("fast", function(){ $("#new-recipe").show()})
 	})
-
 	$('#createb').on("click", function(){
 		alert('Your recipe has been created!');
 		$("#new-recipe").hide("fast", function(){ $("#home").show()})
 	})
-
 	$(document).bind('keypress', function(e) {
 		if(e.keyCode==13){
 			 $('#submit').trigger('click');
 		 }
 	});
-
 	$("#submit").on("click", function(){ 
 		$("#home").hide("fast", function(){ 
 			$("#list").text(" Ingredient list:  "+getParams(", "));
@@ -198,7 +193,7 @@
 						$('#recipes').append("<tr><td class='foodimage'><img src='" + item.smallImageUrls + "' alt='HTML5 Icon' ></td><td><a href='" +urlr 
 						+"' style='color:white'>"+item.recipeName+"</a></td><td style='width:15%'>" + item.rating+ 
 						" <img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'></td><td>" + 
-						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + "</td><td style='width:30;'><img id='edit' src='edit.png' alt='Edit'><img id='delete' src='delete.png' alt='Delete'></td></tr>")}})
+						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + "</td><td style='width:30;'><input type='image' src='edit.png' id='edit' /><input type='image' src='delete.png' id='delete' /></td></tr>")}})
                           
                         })
                     }
@@ -210,7 +205,11 @@
 		})
 	})
 	
-		
+	$('#recipes').on("click", "#edit", function(){
+		$(".toppage").hide("fast", function(){ $('#createb').text("DONE")
+			$("#new-recipe").show()})
+	})
+
 	$(".additional-ingredient").on("click", function (){
 		if ($(this).text() != ""){
 			$("#list").text($("#list").text() + ", " + $(this).text());
