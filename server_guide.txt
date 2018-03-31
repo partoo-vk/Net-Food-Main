@@ -3,6 +3,12 @@ GET
 PUT
 DELETE
 
+Server Flush:
+To clear all databases use this get command
+curl localhost:3000/flush
+
+
+
 Recipes:
 
 object format - {"recipeId": "a" , "name": "onion soup", "ingredients": [], "rating": 0, "image": "url", "url": "url"}
