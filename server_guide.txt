@@ -3,12 +3,6 @@ GET
 PUT
 DELETE
 
-Server Flush:
-To clear all databases use this get command
-curl localhost:3000/flush
-
-
-
 Recipes:
 
 object format - {"recipeId": "a" , "name": "onion soup", "ingredients": [], "rating": 0, "image": "url", "url": "url"}
@@ -16,7 +10,7 @@ Note: server will add a "_Id"
 
 curl -H "Content-Type: application/json" -XPOST -d '{"recipeId": "a" , "name": "onion soup", "ingredients": [], "rating": 0, "image": "url", "url": "url"}' localhost:3000/recipes
 curl localhost:3000/recipes
-curl -H "Content-Type: application/json" -XPUT -d '{"recipeId": "b" , "name": "banana salad", "ingredients": [], "rating": 0, "image": "url", "url": "url"}' localhost:3000/recipes/5abfb9434e0a5a3bb3a2089f    NOTE: the last thing is the _id
+curl -H "Content-Type: application/json" -XPUT -d '{"recipeId": "b" , "name": "banana salad", "ingredients": [], "rating": 0, "image": "url", "url": "url"}' localhost:3000/recipes/5abfcfa05edf83b372a01565    NOTE: the last thing is the _id
 curl -XDELETE localhost:3000/recipes/5abfb9ea4e0a5a3bb3a208a0
 
 
@@ -37,3 +31,10 @@ curl localhost:3000/logins
 curl -H "Content-Type: application/json" -XPUT -d '{"username": "Bananaman", "password": "Nooooo"}' localhost:3000/logins/Bananaman
 curl -XDELETE localhost:3000/logins/Bananaman
 
+
+To authenticate a login:
+curl -H "Content-Type: application/json" -XGET -d '{"username": "Bananaman", "password": "hiShroud"}' localhost:3000/authenticate
+
+
+To check if a user exists:
+curl localhost:3000/logins/Bananaman

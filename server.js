@@ -42,7 +42,34 @@ MongoClient.connect(url, function(err,res){
 
         });
 
+	app.get('/authenticate', function(req, res) {
 
+		var username = req.body.username;
+		var password = req.body.password;
+
+		db.collection("logins").findOne({"username": username, "password": password}, function(err, user){
+			if (!user) {
+				res.send("Invalid");
+			}
+			else {
+				res.send("Valid");
+			}
+		});
+	});
+
+
+	app.get('/logins/:username', function(req, res) {
+		var username = req.params.username;
+
+		db.collection("logins").findOne({"username": username}, function(err, user){
+			if (!user) {
+				res.send("Available")
+			}
+			else {
+				res.send("Taken")
+			}
+		})
+	});
 
 	app.post('/recipes', function(req, res) {
 		db.collection("recipes").insert(req.body, function(err, result){});
