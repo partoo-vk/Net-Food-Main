@@ -136,6 +136,7 @@
 	}
 	
 	var ingredients = [];
+	var chosen_ingredients = [];
 	var used = [];
 	var url_g = "";
 	
@@ -213,6 +214,8 @@
 			url_g = url_g.substring(0, url_g.indexOf("&q=") +3)
 						+ $(this).text() + "+"
 						+ url_g.substring(url_g.indexOf("&q=") + 3)
+						
+			chosen_ingredients.push($(this).text());
 						
 			used.push($(this).text())
 			ingredients = [];
