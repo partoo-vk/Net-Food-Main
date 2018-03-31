@@ -27,7 +27,7 @@
 			  <option value="1">1</option>
 			</select></br></br>
 		  Cook time (minutes): <input type="text" name="time"/>
-	      <button style="max-width:100px;display:block;margin:auto;">CREATE</button>
+	      <button id="createb" style="max-width:100px;display:block;margin:auto;">CREATE</button>
 	    </form>
 		</div>
 	</div>
@@ -138,12 +138,21 @@
 	var used = [];
 	var url_g = "";
 
+	$('#new_recipe').on("click", function(){ 
+		$("#home").hide("fast", function(){ $("#new-recipe").show()})
+	})
+
+	$('#createb').on("click", function(){
+		alert('Your recipe has been created!');
+		$("#new-recipe").hide("fast", function(){ $("#home").show()})
+	})
+
 	$(document).bind('keypress', function(e) {
 		if(e.keyCode==13){
 			 $('#submit').trigger('click');
 		 }
 	});
-	
+
 	$("#submit").on("click", function(){ 
 		$("#home").hide("fast", function(){ 
 			$("#list").text(" Ingredient list:  "+getParams(", "));
