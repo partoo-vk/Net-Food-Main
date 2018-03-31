@@ -59,5 +59,45 @@ $("#login").on("click", function(){
 	
 	
 });
+
+
+$("#register").on("click", function() {
+	object = document.getElementById("registerID").value;
+	account_object = {"username": document.getElementById("registerID").value, "password": document.getElementById("registerPW").value}
+	user_url = 'logins/' + object;
+	console.log(user_url);
+	
+	$.ajax({
+		type: 'GET',
+				url: user_url,
+				success: function(data) {
+					console.log(data)
+					if (data == "Available"){
+						console.log(data);
+						
+						if (document.getElementById("registerPW").value == ""){
+							$("#register").text("Please enter a password");
+						}
+						else{
+							$("#register").text("Account Created");
+							
+							$.ajax({
+								type: "POST",
+								url: 'http://localhost:3000/logins',
+								data: account_object,
+								success: function(data){
+									console.log(data);
+								}
+								
+							});
+						}
+					}
+					else {
+						$("#register").text("Taken, choose another name");
+					}
+				}
+	});
+	
+});
 </script>
 </html>
