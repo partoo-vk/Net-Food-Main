@@ -1,0 +1,268 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<!--<div id="first">
+		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
+
+
+		<div id="all">
+		    <label for="uname"><b>Username</b></label>
+		    <input type="text" placeholder="Enter Username" name="uname" required>
+
+		    <label for="psw"><b>Password</b></label>
+		    <input type="password" placeholder="Enter Password" name="psw" required>
+
+		    <button id="login" type="submit">Login</button>
+	  </div>
+	</div>-->
+	<div class="login-page">
+		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
+	  <div class="form">
+	    <form class="register-form">
+	      <input type="text" placeholder="username"/>
+	      <input type="password" placeholder="password"/>
+	      <input type="text" placeholder="email address"/>
+	      <button>CREATE</button>
+	      <p class="message">Already registered? <a href="#">Sign In</a></p>
+	    </form>
+	    <form class="login-form">
+	      <input type="text" placeholder="username"/>
+	      <input type="password" placeholder="password"/>
+	      <button>LOGIN</button>
+	      <p class="message">Not registered? <a href="#">Create an account</a></p>
+	    </form>
+	  </div>
+	</div>
+	<div id="home">
+	  <img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
+	  <div id="form">
+		<input type="text" id="search" name="firstname" placeholder="Enter an ingredient...">
+		<input type="image" id="submit" name="submit" src="submit.png" alt="Submit"/>
+	  </div>
+	  <img id="or" src="or.png" alt="or">
+	  <input id="new_recipe" type="button" name="submit" value="Create new recipe" alt="NewRecipe"/>
+	</div>
+	
+	<div id="new-recipe">
+		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
+		<div class="new-recipe-div">
+	    <form class="new-recipe-form">
+	      Recipe name: <input type="text" name="name"/>
+		  Recipe URL: <input type="text" name="recipe"/>
+		  Photo URL: <input type="text" name="photo"/>
+		  Rating : <select name="rating">
+			  <option value="5">5</option>
+			  <option value="4">4</option>
+			  <option value="3">3</option>
+			  <option value="2">2</option>
+			  <option value="1">1</option>
+			</select></br></br>
+		  Cook time (minutes): <input type="text" name="time"/>
+	      <button style="max-width:100px;display:block;margin:auto;">CREATE</button>
+	    </form>
+		</div>
+	</div>
+	
+    <div class="container">
+        <div class="item">
+            <img id="miniLogo" src="NetFoodLogoMini.png" alt="Net Food Logo">
+			<h4> Click on ingredients to add</h4>
+        </div>
+		
+        
+		<div class="item" style="margin-top:10px;">
+            <h2 class="header-wrapper" id="list"></h2> 
+			<div class='button-wrapper'>
+				<input id="search2" type="button" value="Search" />
+			</div>
+            
+        </div>
+		
+		<div class="ingredient-container">
+			<div class="additional-ingredient" id="1">
+				ingredient 1
+			</div>
+		
+			<div class="additional-ingredient" id="2">
+				ingredient 2
+			</div>
+        </div>
+		
+		<div class="ingredient-container">
+			<div class="additional-ingredient" id="3">
+				ingredient 3
+			</div>
+		
+			<div class="additional-ingredient" id="4">
+				ingredient 4
+			</div>
+        </div>
+		
+		<div class="ingredient-container">
+			<div class="additional-ingredient" id="5">
+				ingredient 5
+			</div>
+		
+			<div class="additional-ingredient" id="6">
+				ingredient 6
+			</div>
+        </div>
+		
+		<div class="ingredient-container">
+			<div class="additional-ingredient" id="7">
+				ingredient 7
+			</div>
+		
+			<div class="additional-ingredient" id="8">
+				ingredient 8
+			</div>
+        </div>
+		
+		<div class="ingredient-container">
+			<div class="additional-ingredient" id="9">
+				ingredient 9
+			</div>
+		
+			<div class="additional-ingredient" id="10">
+				ingredient 10
+			</div>
+        </div>
+		
+    </div>
+	<div class="toppage">
+        <div class="item">
+            <img id="miniLogo" src="NetFoodLogoMini.png" alt="Net Food Logo">
+        </div>
+		<h3>Recipe Results</h3>
+		
+		<table class="Recipes" style="border-color: transparent;">
+		  <thead>
+			<tr id="header">
+			  <th class="recCol-1"></th>
+			  <th class="recCol-2">Name</th>
+			  <th class="recCol-3">Rating</th>
+			  <th class="recCol-4">Cook Time (Minutes)</th>
+			</tr>
+		  </thead>
+		  <tbody id="recipes">
+		  </tbody>
+		</table>
+	</div>
+</body>
+
+<script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+<script>
+	function getParams(separator){
+		searchString = document.getElementById('search').value.split(" ");
+		params = "";
+		for (var i = 0; i < searchString.length; i++){
+			params+=searchString[i]
+			params+=separator
+		}
+		return params.slice(0,-separator.length);
+	}
+	
+	var ingredients = [];
+	var used = [];
+	var url_g = "";
+	
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "fast");
+});
+$("#login").on("click", function(){ 
+		$("#first").hide("fast", function(){ 
+			$("#home").show()})});
+
+	$("#submit").on("click", function(){ 
+		$("#home").hide("fast", function(){ 
+			$("#list").text(" Ingredient list:  "+getParams(", "));
+			var used = document.getElementById('search').value.split(" ");
+			url_g = 'https://api.yummly.com/v1/api/recipes?_app_id=3b1e348e&_app_key=3beb94e10149f5bbfaf7951cff96b187&q='+getParams("+")
+			$.ajax({
+				type: 'GET',
+				url: url_g,
+				success: function(data) {
+					$.each(data.matches,function(i,item){
+							$.each(item.ingredients, function(i, ing){
+								if (!ingredients.includes(ing)){
+									ingredients.push(ing);
+								}
+							})
+						})
+					for (var i = 0; i < ingredients.length; i++){
+						$("#" + i).text(ingredients[i]);
+					}
+					$(".container").show()
+				}
+			})
+		});
+	});
+	
+	$("#search2").on("click", function() {
+		$(".container").hide("fast", function() {
+			$.ajax({
+				type: 'GET',
+				url: url_g,
+				success: function(data) {
+					$.each(data.matches,function(i,item){
+					var urlr
+					$.ajax({
+						type: 'GET',
+						url: 'http://api.yummly.com/v1/api/recipe/'+item.id+'?_app_id=3b1e348e&_app_key=3beb94e10149f5bbfaf7951cff96b187&',
+						success: function(data2) {
+						urlr = data2.source.sourceRecipeUrl
+						$('#recipes').append("<tr><td class='foodimage'><img src='" + item.smallImageUrls + "' alt='HTML5 Icon' ></td><td><a href='" +urlr 
+						+"' style='color:white'>"+item.recipeName+"</a></td><td style='width:15%'>" + item.rating+ 
+						" <img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'></td><td>" + 
+						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + "</td></tr>")}})
+                          
+                        })
+                    }
+              
+            });
+		
+			$(".toppage").show()
+			$(".recipes").show()
+		})
+	})
+	
+		
+	$(".additional-ingredient").on("click", function (){
+		if ($(this).text() != ""){
+			$("#list").text($("#list").text() + ", " + $(this).text());
+			url_g = url_g.substring(0, url_g.indexOf("&q=") +3)
+						+ $(this).text() + "+"
+						+ url_g.substring(url_g.indexOf("&q=") + 3)
+						
+			used.push($(this).text())
+			ingredients = [];
+			for (var i = 1; i < 11; i++) {
+				$("#" + i).text("")
+				$("#" + i).hide()
+			}
+			$("#1").show().text("Loading...")
+			$.ajax({
+				type: 'GET',
+				url: url_g,
+				success: function(data) {
+					$.each(data.matches,function(i,item){
+						$.each(item.ingredients, function(i, ing){
+							if (!ingredients.includes(ing) && !used.includes(ing)){
+								ingredients.push(ing);
+							}
+						})
+					})
+					for (var i = 0; i < ingredients.length; i++){
+						$("#" + i).text(ingredients[i]);
+						$("#" + i).show();
+					}
+				}
+			})
+		}
+	})
+</script>
+</html>
