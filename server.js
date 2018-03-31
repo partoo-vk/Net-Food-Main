@@ -6,9 +6,6 @@ app.use(bodyParser());
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://ApertureScience:ApertureScience1@ds121589.mlab.com:21589/aperture_science";
 
-
-var posts = [ {recipeId: "a" , name: "onion soup", ingredients: [], rating: 0, image: "url", url: "url"} ];
-
 var ObjectId = require('mongodb').ObjectID;
 
 MongoClient.connect(url, function(err,res){
@@ -17,10 +14,12 @@ MongoClient.connect(url, function(err,res){
         client = res
         db = client.db("aperture_science");
 
-
-
-
-
+	app.get('/flush', function(req, res) {
+		db.collection("recipes").remove({});
+		db.collection("blacklist").remove({});
+		db.collection("logins").remove({});
+		res.send("Database Flushed");
+	});
 
 	app.get('/recipes', function(req, res) {
 		db.collection("recipes").find({}).toArray(function(error, result){
@@ -36,6 +35,14 @@ MongoClient.connect(url, function(err,res){
 
         });
 
+	app.get('/logins', function(req, res) {
+                db.collection("logins").find({}).toArray(function(error, result){
+                        res.send(result);
+                });
+
+        });
+
+
 
 	app.post('/recipes', function(req, res) {
 		db.collection("recipes").insert(req.body, function(err, result){});
@@ -48,16 +55,34 @@ MongoClient.connect(url, function(err,res){
         });
 
 
+	app.post('/logins', function(req, res) {
+                db.collection("logins").insert(req.body, function(err, result){});
+                res.send("Login Created");
+        });
+
 	app.put('/recipes/:recipeId', function(req, res) {
 		// NEEDS TO BE TESTED
-
+		// NOTE: If you are updating a Yummly recipe, you need to blacklist it in a separate command.
+		// 	 The updated version will be stored here, and the original recipe will be blacklisted.
 		// remove by id
-		db.collection("recipes").remove( {"_id": ObjectId(req.params.recipe$
+		db.collection("recipes").remove( {"_id": ObjectId(req.params.recipe) });
 		// add new object
                 db.collection("recipes").insert(req.body, function(err, result){});
 
                 res.send("Updated recipe");
 	});
+
+	app.put('/logins/:username', function(req, res) {
+                // NEEDS TO BE TESTED
+
+                // remove by username
+                db.collection("logins").remove( {"username": req.params.username });
+                // add new object
+                db.collection("logins").insert(req.body, function(err, result){});
+
+                res.send("Updated password");
+        });
+
 
 	app.delete('/recipes/:recipeId', function(req, res) {
 
@@ -66,10 +91,16 @@ MongoClient.connect(url, function(err,res){
 	});
 
 	app.delete('/blacklist/:entry', function(req, res) {
-		db.collection("blacklist").remove( {"entry": req.params.entry});
+		db.collection("blacklist").remove({"entry": req.params.entry});
                 res.send("Removed blacklist entry: " + req.params.entry);
 
 	});
+
+	app.delete('/logins/:username', function(req, res) {
+                db.collection("logins").remove( {"username": req.params.username});
+                res.send("Removed user: " + req.params.entry);
+
+        });
 
 	app.listen(3000);
 
