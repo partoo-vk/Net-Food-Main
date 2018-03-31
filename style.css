@@ -8,7 +8,6 @@
   box-shadow: 0 0 8px 0;
 }
 .form input {
- 
   margin: 0 0 15px;
   padding: 15px;
   font-size: 14px;
@@ -16,7 +15,7 @@
   width: 100%;
   border: 0;
 }
-.form button {
+.form button, .new-recipe-form button{
   color: white;
   font-size: 16px;
   cursor: pointer;
@@ -42,7 +41,12 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
 #home{
+	display: none;
+}
+
+.login-page{
 	display: none;
 }
 #form {
@@ -81,6 +85,31 @@
     border-color: ff4a00;
 	font-size: 25;
     font-family: arial;
+}
+
+.new-recipe-div {
+  border-radius: 20px;
+  background: white;
+  max-width: 400px;
+  margin: auto;
+  padding: 25px;
+  text-align: left;
+  box-shadow: 0 0 8px 0;
+  position: relative;
+  top: -20px;
+}
+
+.new-recipe-form {
+	font-family: arial;
+}
+
+.new-recipe-form input{
+	padding: 10px;
+	margin: 0 0 15px;
+	font-size: 14px;
+	background: #f2f2f2;
+	width: 100%;
+	border: 0;
 }
 
 body::after {
