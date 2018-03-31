@@ -6,16 +6,15 @@
 		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
 	  <div class="form">
 	    <form class="register-form">
-	      <input type="text" placeholder="username"/>
-	      <input type="password" placeholder="password"/>
-	      <input type="text" placeholder="email address"/>
-	      <button>CREATE</button>
+	      <input id="registerID" type="text" placeholder="username"/>
+	      <input id="registerPW" type="password" placeholder="password"/>
+	      <button id="register" >CREATE</button>
 	      <p class="message">Already registered? <a href="#">Sign In</a></p>
 	    </form>
 	    <form class="login-form">
-	      <input type="text" placeholder="username"/>
-	      <input type="password" placeholder="password"/>
-	      <button>LOGIN</button>
+	      <input id="loginID" type="text" placeholder="username"/>
+	      <input id="loginPW" type="password" placeholder="password"/>
+	      <button id="login" >LOGIN</button>
 	      <p class="message">Not registered? <a href="#">Create an account</a></p>
 	    </form>
 	  </div>
@@ -29,8 +28,30 @@
 $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "fast");
 });
+
 $("#login").on("click", function(){ 
-		$("#first").hide("fast", function(){ 
-			$("#home").show()})});
+	console.log(document.getElementById("loginID").value + "    " +  document.getElementById("loginPW").value);
+	
+	$.ajax({
+		type: 'GET',
+				url: 'localhost:3000/authenticate',
+				data: {"username": document.getElementById("loginID").value, "password": document.getElementById("loginPW").value},
+				dataType: "json",
+				success: function(data) {
+						if (data == "Valid") {
+							$("#login").text("Valid")
+						}
+						
+						else {
+							$("#login").text("invalid")
+						}
+						
+						console.log(data);
+                }
+              
+            });
+	
+	
+});
 </script>
 </html>
