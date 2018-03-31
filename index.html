@@ -19,6 +19,7 @@
 	      Recipe name: <input type="text" name="name"/>
 		  Recipe URL: <input type="text" name="recipe"/>
 		  Photo URL: <input type="text" name="photo"/>
+		  Ingredients (separated by commas): <input type="text" name="ingredients"/>
 		  Rating : <select name="rating">
 			  <option value="5">5</option>
 			  <option value="4">4</option>
@@ -137,7 +138,7 @@
 	var ingredients = [];
 	var used = [];
 	var url_g = "";
-
+	
 	$('#new_recipe').on("click", function(){ 
 		$("#home").hide("fast", function(){ $("#new-recipe").show()})
 	})
