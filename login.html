@@ -1,0 +1,36 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div class="login-page">
+		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
+	  <div class="form">
+	    <form class="register-form">
+	      <input type="text" placeholder="username"/>
+	      <input type="password" placeholder="password"/>
+	      <input type="text" placeholder="email address"/>
+	      <button>CREATE</button>
+	      <p class="message">Already registered? <a href="#">Sign In</a></p>
+	    </form>
+	    <form class="login-form">
+	      <input type="text" placeholder="username"/>
+	      <input type="password" placeholder="password"/>
+	      <button>LOGIN</button>
+	      <p class="message">Not registered? <a href="#">Create an account</a></p>
+	    </form>
+	  </div>
+	</div>
+</body>
+<script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+<script>
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "fast");
+});
+$("#login").on("click", function(){ 
+		$("#first").hide("fast", function(){ 
+			$("#home").show()})});
+</script>
+</html>
