@@ -61,7 +61,7 @@ MongoClient.connect(url, function(err,res){
         });
 
 	app.put('/recipes/:recipeId', function(req, res) {
-		// NEEDS TO BE TESTED
+		
 		// NOTE: If you are updating a Yummly recipe, you need to blacklist it in a separate command.
 		// 	 The updated version will be stored here, and the original recipe will be blacklisted.
 		// remove by id
@@ -78,7 +78,7 @@ MongoClient.connect(url, function(err,res){
 	});
 
 	app.put('/logins/:username', function(req, res) {
-                // NEEDS TO BE TESTED
+                
 
                 // remove by username
                 db.collection("logins").remove( {"username": req.params.username }, function(err, result) {
