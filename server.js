@@ -65,22 +65,29 @@ MongoClient.connect(url, function(err,res){
 		// NOTE: If you are updating a Yummly recipe, you need to blacklist it in a separate command.
 		// 	 The updated version will be stored here, and the original recipe will be blacklisted.
 		// remove by id
-		db.collection("recipes").remove( {"_id": ObjectId(req.params.recipe) });
+		db.collection("recipes").remove( {"_id": ObjectId(req.params.recipeId)}, function(err, result) {
+
 		// add new object
-                db.collection("recipes").insert(req.body, function(err, result){});
+                db.collection("recipes").insert(req.body, function(err, result){
 
                 res.send("Updated recipe");
+
+		});
+
+		});
 	});
 
 	app.put('/logins/:username', function(req, res) {
                 // NEEDS TO BE TESTED
 
                 // remove by username
-                db.collection("logins").remove( {"username": req.params.username });
+                db.collection("logins").remove( {"username": req.params.username }, function(err, result) {
                 // add new object
                 db.collection("logins").insert(req.body, function(err, result){});
 
                 res.send("Updated password");
+
+		});
         });
 
 
