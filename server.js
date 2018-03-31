@@ -7,12 +7,20 @@ var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://ApertureScience:ApertureScience1@ds121589.mlab.com:21589/aperture_science";
 
 var ObjectId = require('mongodb').ObjectID;
-
+var path = require('path')
 MongoClient.connect(url, function(err,res){
         if(err) console.log(err)
         console.log("Database created\n\n");
         client = res
         db = client.db("aperture_science");
+
+	app.use(express.static(path.join(__dirname, 'public')));
+		
+	app.get('/', function(req, res) {
+		
+		res.sendfile('login.html');
+		
+	});
 
 	app.get('/flush', function(req, res) {
 		db.collection("recipes").remove({});
