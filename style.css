@@ -42,10 +42,6 @@
 	margin-right: auto;
 }
 
-#home{
-	display: none;
-}
-
 #new-recipe{
 	display: none;
 }
@@ -260,3 +256,5 @@ td{
 }
   
 table{width: 100%;}
+
+#edit, #delete {width: 30;}
