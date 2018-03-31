@@ -142,7 +142,11 @@
 		$("#home").hide("fast", function(){ $("#new-recipe").show()})
 	})
 	$('#createb').on("click", function(){
-		alert('Your recipe has been created!');
+		if($('#createb').text() == "CREATE"){
+			alert('Your recipe has been created!');
+		} else {
+			alert('The recipe has been updated!');
+		}
 		$("#new-recipe").hide("fast", function(){ $("#home").show()})
 	})
 	$(document).bind('keypress', function(e) {
@@ -191,10 +195,9 @@
 						url: 'http://api.yummly.com/v1/api/recipe/'+item.id+'?_app_id=3b1e348e&_app_key=3beb94e10149f5bbfaf7951cff96b187&',
 						success: function(data2) {
 						urlr = data2.source.sourceRecipeUrl
-						console.log(item);
+						stars = "<img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'>".repeat(Number(item.rating));
 						$('#recipes').append("<tr><td class='foodimage'><img src='" + item.smallImageUrls + "' alt='HTML5 Icon' ></td><td><a href='" +urlr 
-						+"' style='color:white'>"+item.recipeName+"</a></td><td style='width:15%'>" + item.rating+ 
-						" <img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'></td><td>" + 
+						+"' style='color:white'>"+item.recipeName+"</a></td><td style='width:15%'>" + stars + "<td>" + 
 						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + 
 						"</td><td style='width:30;'><input type='image' src='edit.png' id='edit' /><input type='image' src='delete.png' id='delete' /><div style='display:none;'>" +
 						item.recipeName + "; " + urlr + "; " + item.smallImageUrls + "; " + item.rating + "; " +
