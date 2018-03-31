@@ -1,20 +1,20 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body id="div1">
 	<div class="login-page">
 		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
 	  <div class="form">
 	    <form class="register-form">
 	      <input id="registerID" type="text" placeholder="username"/>
 	      <input id="registerPW" type="password" placeholder="password"/>
-	      <button id="register" >CREATE</button>
+	      <button type='button' id="register" >CREATE</button>
 	      <p class="message">Already registered? <a href="#">Sign In</a></p>
 	    </form>
 	    <form class="login-form">
 	      <input id="loginID" type="text" placeholder="username"/>
 	      <input id="loginPW" type="password" placeholder="password"/>
-	      <button id="login" >LOGIN</button>
+	      <button type='button' id="login" >LOGIN</button>
 	      <p class="message">Not registered? <a href="#">Create an account</a></p>
 	    </form>
 	  </div>
@@ -30,23 +30,29 @@ $('.message a').click(function(){
 });
 
 $("#login").on("click", function(){ 
-	console.log(document.getElementById("loginID").value + "    " +  document.getElementById("loginPW").value);
+	
+	object = {"username": document.getElementById("loginID").value, "password": document.getElementById("loginPW").value}
+	
+	
 	
 	$.ajax({
-		type: 'GET',
-				url: 'localhost:3000/authenticate',
-				data: {"username": document.getElementById("loginID").value, "password": document.getElementById("loginPW").value},
-				dataType: "json",
+		type: 'POST',
+				url: 'http://localhost:3000/authenticate',
+				data: object,
 				success: function(data) {
+				
+						
 						if (data == "Valid") {
 							$("#login").text("Valid")
+							$("#div1").load("home");
+							
 						}
 						
 						else {
-							$("#login").text("invalid")
+							$("#login").text("Invalid, please try again")
+							
 						}
 						
-						console.log(data);
                 }
               
             });

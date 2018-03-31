@@ -22,6 +22,12 @@ MongoClient.connect(url, function(err,res){
 		
 	});
 
+	app.get('/home', function(req, res) {
+		
+		res.sendfile('index.html');
+		
+	});
+	
 	app.get('/flush', function(req, res) {
 		db.collection("recipes").remove({});
 		db.collection("blacklist").remove({});
@@ -50,8 +56,10 @@ MongoClient.connect(url, function(err,res){
 
         });
 
-	app.get('/authenticate', function(req, res) {
+	app.post('/authenticate', function(req, res) {
 
+		
+		
 		var username = req.body.username;
 		var password = req.body.password;
 
