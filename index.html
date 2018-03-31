@@ -16,18 +16,18 @@
 		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
 		<div class="new-recipe-div">
 	    <form class="new-recipe-form">
-	      Recipe name: <input type="text" name="name"/>
-		  Recipe URL: <input type="text" name="recipe"/>
-		  Photo URL: <input type="text" name="photo"/>
-		  Ingredients (separated by commas): <input type="text" name="ingredients"/>
-		  Rating : <select name="rating">
+	      Recipe name: <input id='Rname' type="text" name="name"/>
+		  Recipe URL: <input id='Rrecipe' type="text" name="recipe"/>
+		  Photo URL: <input  id='Rphoto'type="text" name="photo"/>
+		  Ingredients (separated by commas): <input id='Ringredients' type="text" name="ingredients"/>
+		  Rating : <select id='Rrating' name="rating">
 			  <option value="5">5</option>
 			  <option value="4">4</option>
 			  <option value="3">3</option>
 			  <option value="2">2</option>
 			  <option value="1">1</option>
 			</select></br></br>
-		  Cook time (minutes): <input type="text" name="time"/>
+		  Cook time (minutes): <input id='Rtime' type="text" name="time"/>
 	      <button id="createb" style="max-width:100px;display:block;margin:auto;">CREATE</button>
 	    </form>
 		</div>
@@ -143,10 +143,6 @@
 		$("#home").hide("fast", function(){ $("#new-recipe").show()})
 	})
 
-	$('#createb').on("click", function(){
-		alert('Your recipe has been created!');
-		$("#new-recipe").hide("fast", function(){ $("#home").show()})
-	})
 
 	$(document).bind('keypress', function(e) {
 		if(e.keyCode==13){
@@ -245,5 +241,30 @@
 			})
 		}
 	})
+
+	$("#createb").on("click", function(){ 
+	
+	object = {"name": document.getElementById("Rname").value, "recipe": document.getElementById("Rrecipe").value, "photo": document.getElementById("Rphoto").value,"ingredients": document.getElementById("Ringredients").value,"rating": document.getElementById("Rrating").value,"time": document.getElementById("Rtime").value}
+	console.log(object)
+	
+	
+	
+	$.ajax({
+		type: 'POST',
+				url: 'http://localhost:3000/recipes',
+				data: object,
+				success: function(data) {
+				
+						console.log(data)
+						alert('Your recipe has been created!');
+						$("#new-recipe").hide("fast", function(){ $("#home").show()})
+					
+						
+                }
+              
+            });
+	
+	
+});
 </script>
 </html>
