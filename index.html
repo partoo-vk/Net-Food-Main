@@ -257,11 +257,11 @@
 						console.log(confirmedR[r]);
 			
 						stars = "<img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'>".repeat(Number(confirmedR[r].rating));
-						$('#recipes').append("<tr><td class='foodimage'><img src='" + confirmedR[r].photo + "' alt='HTML5 Icon' ></td><td><a href='" +confirmedR[r].recipe
+						$('#recipes').append("<tr><td class='foodimage'><img src='" + confirmedR[r].photo + "' alt='HTML5 Icon' style='height:60;'></td><td><a href='" +confirmedR[r].recipe
 								+"' style='color:white'>"+confirmedR[r].name+"</a></td><td style='width:15%'>" + stars + "</td><td>" + 
-								parseInt(confirmedR[r].time, 10) / parseInt(60, 10) + "</td><td style='width:30;'><img id='edit' src='edit.png' alt='Edit'><img id='delete' src='delete.png' alt='Delete'><div style='display:none;'>" +
+								confirmedR[r].time + "</td><td style='width:30;'><img id='edit' src='edit.png' alt='Edit'><img id='delete' src='delete.png' alt='Delete'><div style='display:none;'>" +
 								confirmedR[r].name + "; " + confirmedR[r].recipe + "; " + confirmedR[r].photo + "; " + confirmedR[r].rating + "; " +
-								parseInt(confirmedR[r].time, 10) / parseInt(60, 10) + "; " + confirmedR[r].ingredients + "</div></td></tr>")
+								confirmedR[r].time + "; " + confirmedR[r].ingredients + "</div></td></tr>")
 						}
 					
                 }
