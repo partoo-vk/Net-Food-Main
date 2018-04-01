@@ -44,7 +44,15 @@ $("#login").on("click", function(){
 						
 						if (data == "Valid") {
 							$("#login").text("Valid")
-							$("#div1").load("home");
+							$.ajax({
+								type: 'GET',
+								url: 'http://localhost:3000/home',
+								success: function(data2){
+									window.location.replace('http://localhost:3000/home')
+
+								}
+							})
+						
 							
 						}
 						

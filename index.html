@@ -241,7 +241,7 @@
 						success: function(data) {
 								console.log(data)
 								// alert('Your recipe has been created!');
-								$("#new-recipe").hide("fast", function(){ $("#div1").load("home")})
+								$("#new-recipe").hide("fast", function(){ window.location.replace('http://localhost:3000/home')})
 							
 								
 						}
