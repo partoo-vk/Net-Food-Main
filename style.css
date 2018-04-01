@@ -42,7 +42,7 @@
 	margin-right: auto;
 }
 
-#new-recipe{
+#new-recipe, #edit-recipe{
 	display: none;
 }
 

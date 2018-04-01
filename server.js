@@ -92,6 +92,20 @@ MongoClient.connect(url, function(err,res){
 			}
 		})
 	});
+	
+	app.get('/blacklist/:entry', function(req, res) {
+		var entry = req.params.entry;
+		db.collection("blacklist").findOne({"entry": entry}, function(err, thing){
+			if (!thing) {
+					res.send("Clean");
+			}
+			else {
+					res.send("Blocked");
+			}
+		})
+		
+		
+	})
 
 	app.post('/recipes', function(req, res) {
 		db.collection("recipes").insert(req.body, function(err, result){});

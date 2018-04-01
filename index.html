@@ -33,6 +33,28 @@
 		</div>
 	</div>
 	
+	<div id="edit-recipe">
+		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
+		<div class="new-recipe-div">
+	    <form class="new-recipe-form">
+	      Recipe name: <input id='Rname2' type="text" name="name"/>
+		  Recipe URL: <input id='Rrecipe2' type="text" name="recipe"/>
+		  Photo URL: <input  id='Rphoto2'type="text" name="photo"/>
+		  Ingredients (separated by commas): <input id='Ringredients2' type="text" name="ingredients"/>
+		  Rating : <select id='Rrating2' name="rating">
+			  <option value="5">5</option>
+			  <option value="4">4</option>
+			  <option value="3">3</option>
+			  <option value="2">2</option>
+			  <option value="1">1</option>
+			</select></br></br>
+		  Cook time (minutes): <input id='Rtime2' type="text" name="time"/>
+	      <button type="button" id="editb" style="max-width:100px;display:block;margin:auto;">DONE</button>
+		  <div id="recipeId" style="display:none;"></div>
+	    </form>
+		</div>
+	</div>
+	
     <div class="container">
         <div class="item">
             <img id="miniLogo" src="NetFoodLogoMini.png" alt="Net Food Logo">
@@ -144,10 +166,61 @@
 	$('#new_recipe').on("click", function(){ 
 		$("#home").hide("fast", function(){ $("#new-recipe").show()})
 	})
+	
+	$('#editb').on("click", function(){
+		info = $("#recipeId").text().split("; ")
+		recipeId = info[0]
+		recipeType = info[1]
+		object = {"name": document.getElementById("Rname2").value, "recipe": document.getElementById("Rrecipe2").value, "photo": document.getElementById("Rphoto2").value,"ingredients": document.getElementById("Ringredients2").value.split(",").map(item => item.trim()),"rating": document.getElementById("Rrating2").value,"time": document.getElementById("Rtime2").value}
+		
+		if (!(
+			object["name"] == "" |
+			object["Rname"] == "" |
+			object["recipe"] == "" |
+			object["ingredients"] == [] |
+			object["rating"] == "" |
+			object["Rtime"] == "" )
+		){
+			if(recipeType == "yummly"){
+				$.ajax({
+					type: "POST",
+					url: 'http://localhost:3000/blacklist',
+					data: {"entry": recipeId},
+					success: function(data) {
+						console.log(data);
+					}
+				})
+				
+				
+				$.ajax({
+					type: "POST",
+					url: 'http://localhost:3000/recipes',
+					data: object,
+					success: function(data) {
+						console.log(data)
+					}
+				})
+			} else {
+				url_priv = 'http://localhost:3000/recipes/' + recipeId;
+				
+				$.ajax({
+					type: "PUT",
+					url: url_priv,
+					data: object,
+					success: function(data) {
+						console.log(data);
+					}
+				})
+			}
+		} else {
+			alert("Cannot Submit Empty Fields");
+		}
+	
+		$("#edit-recipe").hide("fast", function(){ $(".toppage").show()})
+	})
 
 	$('#createb').on("click", function(){
-		if($('#createb').text() == "CREATE"){
-			object = {"name": document.getElementById("Rname").value, "recipe": document.getElementById("Rrecipe").value, "photo": document.getElementById("Rphoto").value,"ingredients": document.getElementById("Ringredients").value.split(", "),"rating": document.getElementById("Rrating").value,"time": document.getElementById("Rtime").value}
+			object = {"name": document.getElementById("Rname").value, "recipe": document.getElementById("Rrecipe").value, "photo": document.getElementById("Rphoto").value,"ingredients": document.getElementById("Ringredients").value.split(",").map(item => item.trim()),"rating": document.getElementById("Rrating").value,"time": document.getElementById("Rtime").value}
 			console.log(object)
 			
 			if (!(
@@ -177,10 +250,6 @@
 			else {
 				alert("Cannot Submit Empty Fields");
 			}
-		} else {
-			alert('The recipe has been updated!');
-		}
-		$("#new-recipe").hide("fast", function(){ $("#home").show()})
 	})
 
 	$(document).bind('keypress', function(e) {
@@ -223,7 +292,7 @@
 		$.ajax({
 		type: 'GET',
 				url: 'http://localhost:3000/recipes',
-				data: object,
+				//data: object,
 				success: function(data) {
 						confirmedR = [];
 						
@@ -261,7 +330,7 @@
 								+"' style='color:white'>"+confirmedR[r].name+"</a></td><td style='width:15%'>" + stars + "</td><td>" + 
 								confirmedR[r].time + "</td><td style='width:30;'><img id='edit' src='edit.png' alt='Edit'><img id='delete' src='delete.png' alt='Delete'><div style='display:none;'>" +
 								confirmedR[r].name + "; " + confirmedR[r].recipe + "; " + confirmedR[r].photo + "; " + confirmedR[r].rating + "; " +
-								confirmedR[r].time + "; " + confirmedR[r].ingredients + "</div></td></tr>")
+								confirmedR[r].time + "; " + confirmedR[r].ingredients + "; " + confirmedR[r]._id + "; private</div></td></tr>")
 						}
 					
                 }
@@ -278,6 +347,28 @@
 					$.each(data.matches,function(i,item){
 					var urlr
 					$.ajax({
+						
+						// curl localhost:3000/blacklist/Homemade-Peanut-Butter-Eggs-2160711
+					
+						/*
+						url = 'http://localhost:3000/blacklist/' + id;
+						
+						$.ajax({
+							type: "GET",
+							success: function(data){
+							
+							if (data == "Blocked" ){
+								skip
+							}
+							
+							else {
+								dont skip
+							}
+							}
+						})
+						
+						*/
+					
 						type: 'GET',
 						dataType: 'jsonp',
 						url: 'http://api.yummly.com/v1/api/recipe/'+item.id+'?_app_id=3b1e348e&_app_key=3beb94e10149f5bbfaf7951cff96b187&',
@@ -289,7 +380,7 @@
 						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + 
 						"</td><td style='width:30;'><input type='image' src='edit.png' id='edit' /><input type='image' src='delete.png' id='delete' /><div style='display:none;'>" +
 						item.recipeName + "; " + urlr + "; " + item.smallImageUrls + "; " + item.rating + "; " +
-						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + "; " + item.ingredients + "</div></td></tr>")}})
+						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + "; " + item.ingredients + "; " + item.id + "; yummly</div></td></tr>")}})
                         })
                     }
               
@@ -304,14 +395,44 @@
 		info = $(this).next().next().text()
 		$(".toppage").hide("fast", function(){
 			defaults = info.split("; ")
-			$("#Rname").val(defaults[0])
-			$("#Rrecipe").val(defaults[1])
-			$("#Rphoto").val(defaults[2])
-			$("#Rrating").val(defaults[3])
-			$("#Rtime").val(defaults[4])
-			$("#Ringredients").val(defaults[5])
-			$('#createb').text("DONE")
-			$("#new-recipe").show()})
+			$("#Rname2").val(defaults[0])
+			$("#Rrecipe2").val(defaults[1])
+			$("#Rphoto2").val(defaults[2])
+			$("#Rrating2").val(defaults[3])
+			$("#Rtime2").val(defaults[4])
+			$("#Ringredients2").val(defaults[5])
+			$("#recipeId").text(defaults[6] + "; " + defaults[7])
+			$("#edit-recipe").show()})
+	})
+	
+	$('#recipes').on("click", "#delete", function(){
+		info = $(this).next().text().split("; ")
+		recipeId = info[6]
+		recipeType = info[7]
+		
+		if(recipeType == "yummly"){
+			$.ajax({
+				type: "POST",
+				url: 'http://localhost:3000/blacklist',
+				data: {"entry": recipeId},
+				success: function(data) {
+					alert(info[0] + " deleted!")
+					console.log(data);
+				}
+			})
+		} else {
+			url_priv = 'http://localhost:3000/recipes/' + recipeId;
+			
+			$.ajax({
+				type: "DELETE",
+				url: url_priv,
+				data: recipeId,
+				success: function(data) {
+					alert(info[0] + " deleted!")
+					console.log(data);
+				}
+			})
+		}
 	})
 
 	$(".additional-ingredient").on("click", function (){
