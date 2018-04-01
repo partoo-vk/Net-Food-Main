@@ -145,7 +145,21 @@
 
 	$('#createb').on("click", function(){
 		if($('#createb').text() == "CREATE"){
-			alert('Your recipe has been created!');
+			object = {"name": document.getElementById("Rname").value, "recipe": document.getElementById("Rrecipe").value, "photo": document.getElementById("Rphoto").value,"ingredients": document.getElementById("Ringredients").value,"rating": document.getElementById("Rrating").value,"time": document.getElementById("Rtime").value}
+			console.log(object)
+			$.ajax({
+				type: 'POST',
+						url: 'http://localhost:3000/recipes',
+						data: object,
+						success: function(data) {
+								console.log(data)
+								alert('Your recipe has been created!');
+								$("#new-recipe").hide("fast", function(){ $("#home").show()})
+							
+								
+						}
+					  
+					});
 		} else {
 			alert('The recipe has been updated!');
 		}
