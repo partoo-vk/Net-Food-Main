@@ -139,6 +139,8 @@
 	var chosen_ingredients = [];
 	var used = [];
 	var url_g = "";
+	var not_yummly_ids = [];
+	var confirmedR = [];
 	$('#new_recipe').on("click", function(){ 
 		$("#home").hide("fast", function(){ $("#new-recipe").show()})
 	})
@@ -197,8 +199,59 @@
 		});
 	});
 	
+
+	$.ajax({
+		type: 'GET',
+				url: 'http://localhost:3000/recipes',
+				data: object,
+				success: function(data) {
+				
+						console.log(data)
+						not_yummly_ids.push(data._id)
+					
+                }
+              
+            });
+
 	$("#search2").on("click", function() {
 		$(".container").hide("fast", function() {
+
+		$.ajax({
+		type: 'GET',
+				url: 'http://localhost:3000/recipes',
+				data: object,
+				success: function(data) {
+						confirmedR = [];
+						console.log(data)
+						for (r in data){
+							var flag = 1
+							for (d in chosen_ingredients){
+								if (data.ingredients.indexOf(d) == -1){
+									flag = 0;
+								}
+
+							}
+							if (flag == 1){
+								confirmedR.push(d)
+
+							}
+
+						}
+						
+					
+                }
+              
+            });
+			for(r in confirmedR){
+				stars = "<img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'>".repeat(Number(item.rating));
+				$('#recipes').append("<tr><td class='foodimage'><img src='" + r.photo + "' alt='HTML5 Icon' ></td><td><a href='" +r.recipe
+						+"' style='color:white'>"+r.name+"</a></td><td style='width:15%'>" + stars + "</td><td>" + 
+						parseInt(r.time, 10) / parseInt(60, 10) + "</td><td style='width:30;'><img id='edit' src='edit.png' alt='Edit'><img id='delete' src='delete.png' alt='Delete'><div style='display:none;'>" +
+						r.name + "; " + r.recipe + "; " + r.photo + "; " + r.rating + "; " +
+						parseInt(r.time, 10) / parseInt(60, 10) + "; " + r.ingredients + "</div></td></tr>")
+			}
+	
+
 			$.ajax({
 				type: 'GET',
 				dataType: 'jsonp',
@@ -214,12 +267,11 @@
 						urlr = data2.source.sourceRecipeUrl
 						stars = "<img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'>".repeat(Number(item.rating));
 						$('#recipes').append("<tr><td class='foodimage'><img src='" + item.smallImageUrls + "' alt='HTML5 Icon' ></td><td><a href='" +urlr 
-						+"' style='color:white'>"+item.recipeName+"</a></td><td style='width:15%'>" + stars + "<td>" + 
+						+"' style='color:white'>"+item.recipeName+"</a></td><td style='width:15%'>" + stars + "</td><td>" + 
 						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + 
 						"</td><td style='width:30;'><input type='image' src='edit.png' id='edit' /><input type='image' src='delete.png' id='delete' /><div style='display:none;'>" +
 						item.recipeName + "; " + urlr + "; " + item.smallImageUrls + "; " + item.rating + "; " +
 						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + "; " + item.ingredients + "</div></td></tr>")}})
-                          
                         })
                     }
               
@@ -302,8 +354,6 @@
                 }
               
             });
-	
-	
 });
 </script>
 </html>
