@@ -5,7 +5,7 @@ DELETE
 
 Recipes:
 
-object format - {"recipeId": "a" , "name": "onion soup", "ingredients": [], "rating": 0, "image": "url", "url": "url"}
+object format - {"recipeId": "a" , "name": "onion soup", "ingredients": [], "rating": 0, "image": "url", "url": "url", "time to cook":0, "yummnly":false}
 Note: server will add a "_Id"
 
 curl -H "Content-Type: application/json" -XPOST -d '{"recipeId": "a" , "name": "onion soup", "ingredients": [], "rating": 0, "image": "url", "url": "url"}' localhost:3000/recipes
@@ -33,7 +33,7 @@ curl -XDELETE localhost:3000/logins/Bananaman
 
 
 To authenticate a login:
-curl -H "Content-Type: application/json" -XGET -d '{"username": "Bananaman", "password": "hiShroud"}' localhost:3000/authenticate
+curl -H "Content-Type: application/json" -XPOST -d '{"username": "Bananaman", "password": "hiShroud"}' localhost:3000/authenticate
 
 
 To check if a user exists:

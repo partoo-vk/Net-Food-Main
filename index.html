@@ -16,18 +16,18 @@
 		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
 		<div class="new-recipe-div">
 	    <form class="new-recipe-form">
-	      Recipe name: <input id ="recipeName" type="text" name="name"/>
-		  Recipe URL: <input id="recipeURL" type="text" name="recipe"/>
-		  Photo URL: <input id="photoURL"type="text" name="photo"/>
-		  Rating : <select id="rating" name="rating">
+	      Recipe name: <input id='Rname' type="text" name="name"/>
+		  Recipe URL: <input id='Rrecipe' type="text" name="recipe"/>
+		  Photo URL: <input  id='Rphoto'type="text" name="photo"/>
+		  Ingredients (separated by commas): <input id='Ringredients' type="text" name="ingredients"/>
+		  Rating : <select id='Rrating' name="rating">
 			  <option value="5">5</option>
 			  <option value="4">4</option>
 			  <option value="3">3</option>
 			  <option value="2">2</option>
 			  <option value="1">1</option>
 			</select></br></br>
-		  Ingredients (separated by commas): <input id="ingredients" type="text" name="ingredients"/>
-		  Cook time (minutes): <input id="time" type="text" name="time"/>
+		  Cook time (minutes): <input id='Rtime' type="text" name="time"/>
 	      <button id="createb" style="max-width:100px;display:block;margin:auto;">CREATE</button>
 	    </form>
 		</div>
@@ -136,11 +136,13 @@
 	}
 	
 	var ingredients = [];
+	var chosen_ingredients = [];
 	var used = [];
 	var url_g = "";
 	$('#new_recipe').on("click", function(){ 
 		$("#home").hide("fast", function(){ $("#new-recipe").show()})
 	})
+
 	$('#createb').on("click", function(){
 		if($('#createb').text() == "CREATE"){
 			alert('Your recipe has been created!');
@@ -149,6 +151,7 @@
 		}
 		$("#new-recipe").hide("fast", function(){ $("#home").show()})
 	})
+
 	$(document).bind('keypress', function(e) {
 		if(e.keyCode==13){
 			 $('#submit').trigger('click');
@@ -217,12 +220,12 @@
 		info = $(this).next().next().text()
 		$(".toppage").hide("fast", function(){
 			defaults = info.split("; ")
-			$("#recipeName").val(defaults[0])
-			$("#recipeURL").val(defaults[1])
-			$("#photoURL").val(defaults[2])
-			$("#rating").val(defaults[3])
-			$("#time").val(defaults[4])
-			$("#ingredients").val(defaults[5])
+			$("#Rname").val(defaults[0])
+			$("#Rrecipe").val(defaults[1])
+			$("#Rphoto").val(defaults[2])
+			$("#Rrating").val(defaults[3])
+			$("#Rtime").val(defaults[4])
+			$("#Ringredients").val(defaults[5])
 			$('#createb').text("DONE")
 			$("#new-recipe").show()})
 	})
@@ -233,6 +236,8 @@
 			url_g = url_g.substring(0, url_g.indexOf("&q=") +3)
 						+ $(this).text() + "+"
 						+ url_g.substring(url_g.indexOf("&q=") + 3)
+						
+			chosen_ingredients.push($(this).text());
 						
 			used.push($(this).text())
 			ingredients = [];
@@ -261,5 +266,30 @@
 			})
 		}
 	})
+
+	$("#createb").on("click", function(){ 
+	
+	object = {"name": document.getElementById("Rname").value, "recipe": document.getElementById("Rrecipe").value, "photo": document.getElementById("Rphoto").value,"ingredients": document.getElementById("Ringredients").value,"rating": document.getElementById("Rrating").value,"time": document.getElementById("Rtime").value}
+	console.log(object)
+	
+	
+	
+	$.ajax({
+		type: 'POST',
+				url: 'http://localhost:3000/recipes',
+				data: object,
+				success: function(data) {
+				
+						console.log(data)
+						alert('Your recipe has been created!');
+						$("#new-recipe").hide("fast", function(){ $("#home").show()})
+					
+						
+                }
+              
+            });
+	
+	
+});
 </script>
 </html>
