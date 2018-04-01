@@ -1,5 +1,14 @@
 const express = require('express');
 const app = express();
+const cookieparser = require('cookie-parser');
+
+const session = require('express-session');
+ app.use(cookieparser());
+        
+ app.use(session({secret:'anyStringOfText',
+                    saveUnInitialized: true,
+                    resave: true }));
+
 var bodyParser = require('body-parser');
 app.use(bodyParser());
 
@@ -23,9 +32,13 @@ MongoClient.connect(url, function(err,res){
 	});
 
 	app.get('/home', function(req, res) {
-		
+		if (!req.session.user) {
+			console.log("not user")
+			res.redirect('/')
+		}
+		else{
 		res.sendfile('index.html');
-		
+		}
 	});
 	
 	app.get('/flush', function(req, res) {
@@ -74,6 +87,7 @@ MongoClient.connect(url, function(err,res){
 				res.send("Invalid");
 			}
 			else {
+				req.session.user =user;
 				res.send("Valid");
 			}
 		});
