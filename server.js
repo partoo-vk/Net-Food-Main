@@ -41,6 +41,12 @@ MongoClient.connect(url, function(err,res){
 		});
 
 	});
+	
+	app.get('/recipes/:recipeId/ingredients', function(req, res) {
+		db.collection("recipes").find({"_id": ObjectId(req.params.recipeId)}).toArray(function(error, result) {
+				res.send(result[0]["ingredients"]);
+		});
+	});
 
 	app.get('/blacklist', function(req, res) {
                 db.collection("blacklist").find({}).toArray(function(error, result){

@@ -1,7 +1,7 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body id="div1">
 	<div id="home">
 	  <img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
 	  <div id="form">
@@ -28,7 +28,7 @@
 			  <option value="1">1</option>
 			</select></br></br>
 		  Cook time (minutes): <input id='Rtime' type="text" name="time"/>
-	      <button id="createb" style="max-width:100px;display:block;margin:auto;">CREATE</button>
+	      <button type="button" id="createb" style="max-width:100px;display:block;margin:auto;">CREATE</button>
 	    </form>
 		</div>
 	</div>
@@ -147,21 +147,36 @@
 
 	$('#createb').on("click", function(){
 		if($('#createb').text() == "CREATE"){
-			object = {"name": document.getElementById("Rname").value, "recipe": document.getElementById("Rrecipe").value, "photo": document.getElementById("Rphoto").value,"ingredients": document.getElementById("Ringredients").value,"rating": document.getElementById("Rrating").value,"time": document.getElementById("Rtime").value}
+			object = {"name": document.getElementById("Rname").value, "recipe": document.getElementById("Rrecipe").value, "photo": document.getElementById("Rphoto").value,"ingredients": document.getElementById("Ringredients").value.split(", "),"rating": document.getElementById("Rrating").value,"time": document.getElementById("Rtime").value}
 			console.log(object)
+			
+			if (!(
+				object["name"] == "" |
+				object["Rname"] == "" |
+				object["recipe"] == "" |
+				object["ingredients"] == [] |
+				object["rating"] == "" |
+				object["Rtime"] == "" )
+			){
+			
 			$.ajax({
 				type: 'POST',
 						url: 'http://localhost:3000/recipes',
 						data: object,
 						success: function(data) {
 								console.log(data)
-								alert('Your recipe has been created!');
-								$("#new-recipe").hide("fast", function(){ $("#home").show()})
+								// alert('Your recipe has been created!');
+								$("#new-recipe").hide("fast", function(){ $("#div1").load("home")})
 							
 								
 						}
 					  
 					});
+					
+			}
+			else {
+				alert("Cannot Submit Empty Fields");
+			}
 		} else {
 			alert('The recipe has been updated!');
 		}
@@ -200,18 +215,7 @@
 	});
 	
 
-	$.ajax({
-		type: 'GET',
-				url: 'http://localhost:3000/recipes',
-				data: object,
-				success: function(data) {
-				
-						console.log(data)
-						not_yummly_ids.push(data._id)
-					
-                }
-              
-            });
+	
 
 	$("#search2").on("click", function() {
 		$(".container").hide("fast", function() {
@@ -222,34 +226,48 @@
 				data: object,
 				success: function(data) {
 						confirmedR = [];
-						console.log(data)
+						
+						
 						for (r in data){
+						
+							
 							var flag = 1
+						
 							for (d in chosen_ingredients){
-								if (data.ingredients.indexOf(d) == -1){
-									flag = 0;
-								}
+								
+									if (data[r]["ingredients"].indexOf(chosen_ingredients[d]) == -1){
+										flag = 0;
+									}
+									
 
 							}
 							if (flag == 1){
-								confirmedR.push(d)
+								confirmedR.push(data[r])
 
 							}
 
 						}
 						
+						//console.log(data)
+						//console.log(confirmedR)
+						
+						
+						for(r in confirmedR){
+				
+						console.log(confirmedR[r]);
+			
+						stars = "<img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'>".repeat(Number(confirmedR[r].rating));
+						$('#recipes').append("<tr><td class='foodimage'><img src='" + confirmedR[r].photo + "' alt='HTML5 Icon' ></td><td><a href='" +confirmedR[r].recipe
+								+"' style='color:white'>"+confirmedR[r].name+"</a></td><td style='width:15%'>" + stars + "</td><td>" + 
+								parseInt(confirmedR[r].time, 10) / parseInt(60, 10) + "</td><td style='width:30;'><img id='edit' src='edit.png' alt='Edit'><img id='delete' src='delete.png' alt='Delete'><div style='display:none;'>" +
+								confirmedR[r].name + "; " + confirmedR[r].recipe + "; " + confirmedR[r].photo + "; " + confirmedR[r].rating + "; " +
+								parseInt(confirmedR[r].time, 10) / parseInt(60, 10) + "; " + confirmedR[r].ingredients + "</div></td></tr>")
+						}
 					
                 }
               
             });
-			for(r in confirmedR){
-				stars = "<img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'>".repeat(Number(item.rating));
-				$('#recipes').append("<tr><td class='foodimage'><img src='" + r.photo + "' alt='HTML5 Icon' ></td><td><a href='" +r.recipe
-						+"' style='color:white'>"+r.name+"</a></td><td style='width:15%'>" + stars + "</td><td>" + 
-						parseInt(r.time, 10) / parseInt(60, 10) + "</td><td style='width:30;'><img id='edit' src='edit.png' alt='Edit'><img id='delete' src='delete.png' alt='Delete'><div style='display:none;'>" +
-						r.name + "; " + r.recipe + "; " + r.photo + "; " + r.rating + "; " +
-						parseInt(r.time, 10) / parseInt(60, 10) + "; " + r.ingredients + "</div></td></tr>")
-			}
+			
 	
 
 			$.ajax({
@@ -333,27 +351,6 @@
 		}
 	})
 
-	$("#createb").on("click", function(){ 
 	
-	object = {"name": document.getElementById("Rname").value, "recipe": document.getElementById("Rrecipe").value, "photo": document.getElementById("Rphoto").value,"ingredients": document.getElementById("Ringredients").value,"rating": document.getElementById("Rrating").value,"time": document.getElementById("Rtime").value}
-	console.log(object)
-	
-	
-	
-	$.ajax({
-		type: 'POST',
-				url: 'http://localhost:3000/recipes',
-				data: object,
-				success: function(data) {
-				
-						console.log(data)
-						alert('Your recipe has been created!');
-						$("#new-recipe").hide("fast", function(){ $("#home").show()})
-					
-						
-                }
-              
-            });
-});
 </script>
 </html>
