@@ -163,6 +163,7 @@
 	var url_g = "";
 	var not_yummly_ids = [];
 	var confirmedR = [];
+	var black = [];
 	$('#new_recipe').on("click", function(){ 
 		$("#home").hide("fast", function(){ $("#new-recipe").show()})
 	})
@@ -198,6 +199,7 @@
 					data: object,
 					success: function(data) {
 						console.log(data)
+						alert(" Edited! Changes will apply on your next search!")
 					}
 				})
 			} else {
@@ -209,6 +211,7 @@
 					data: object,
 					success: function(data) {
 						console.log(data);
+						alert(" Edited! changes will apply on your next search!")
 					}
 				})
 			}
@@ -218,7 +221,6 @@
 	
 		$("#edit-recipe").hide("fast", function(){ $(".toppage").show()})
 	})
-
 	$('#createb').on("click", function(){
 			object = {"name": document.getElementById("Rname").value, "recipe": document.getElementById("Rrecipe").value, "photo": document.getElementById("Rphoto").value,"ingredients": document.getElementById("Ringredients").value.split(",").map(item => item.trim()),"rating": document.getElementById("Rrating").value,"time": document.getElementById("Rtime").value}
 			console.log(object)
@@ -251,7 +253,6 @@
 				alert("Cannot Submit Empty Fields");
 			}
 	})
-
 	$(document).bind('keypress', function(e) {
 		if(e.keyCode==13){
 			 $('#submit').trigger('click');
@@ -283,12 +284,9 @@
 		});
 	});
 	
-
 	
-
 	$("#search2").on("click", function() {
 		$(".container").hide("fast", function() {
-
 		$.ajax({
 		type: 'GET',
 				url: 'http://localhost:3000/recipes',
@@ -308,13 +306,10 @@
 										flag = 0;
 									}
 									
-
 							}
 							if (flag == 1){
 								confirmedR.push(data[r])
-
 							}
-
 						}
 						
 						//console.log(data)
@@ -336,9 +331,29 @@
                 }
               
             });
+
+			$.ajax({
+				type: 'GET',
+				//dataType: 'jsonp',
+				url: 'http://localhost:3000/blacklist',
+				success: function(data5) {
+
+					//console.log(data5)
+					$.each(data5,function(i,item){
+					
+					//console.log(item.entry)
+					black.push(item.entry)
+					
+
+			
+			
+                        })
+                    }
+              
+            });	
+
 			
 	
-
 			$.ajax({
 				type: 'GET',
 				dataType: 'jsonp',
@@ -347,40 +362,25 @@
 					$.each(data.matches,function(i,item){
 					var urlr
 					$.ajax({
-						
-						// curl localhost:3000/blacklist/Homemade-Peanut-Butter-Eggs-2160711
-					
-						/*
-						url = 'http://localhost:3000/blacklist/' + id;
-						
-						$.ajax({
-							type: "GET",
-							success: function(data){
-							
-							if (data == "Blocked" ){
-								skip
-							}
-							
-							else {
-								dont skip
-							}
-							}
-						})
-						
-						*/
 					
 						type: 'GET',
 						dataType: 'jsonp',
 						url: 'http://api.yummly.com/v1/api/recipe/'+item.id+'?_app_id=3b1e348e&_app_key=3beb94e10149f5bbfaf7951cff96b187&',
 						success: function(data2) {
-						urlr = data2.source.sourceRecipeUrl
-						stars = "<img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'>".repeat(Number(item.rating));
-						$('#recipes').append("<tr><td class='foodimage'><img src='" + item.smallImageUrls + "' alt='HTML5 Icon' ></td><td><a href='" +urlr 
-						+"' style='color:white'>"+item.recipeName+"</a></td><td style='width:15%'>" + stars + "</td><td>" + 
-						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + 
-						"</td><td style='width:30;'><input type='image' src='edit.png' id='edit' /><input type='image' src='delete.png' id='delete' /><div style='display:none;'>" +
-						item.recipeName + "; " + urlr + "; " + item.smallImageUrls + "; " + item.rating + "; " +
-						parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + "; " + item.ingredients + "; " + item.id + "; yummly</div></td></tr>")}})
+
+							if($.inArray(item.id,black) !== -1){
+
+							}
+							else{
+								urlr = data2.source.sourceRecipeUrl
+								stars = "<img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'>".repeat(Number(item.rating));
+								$('#recipes').append("<tr><td class='foodimage'><img src='" + item.smallImageUrls + "' alt='HTML5 Icon' ></td><td><a href='" +urlr 
+								+"' style='color:white'>"+item.recipeName+"</a></td><td style='width:15%'>" + stars + "</td><td>" + 
+								parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + 
+								"</td><td style='width:30;'><input type='image' src='edit.png' id='edit' /><input type='image' src='delete.png' id='delete' /><div style='display:none;'>" +
+								item.recipeName + "; " + urlr + "; " + item.smallImageUrls + "; " + item.rating + "; " +
+								parseInt(item.totalTimeInSeconds, 10) / parseInt(60, 10) + "; " + item.ingredients + "; " + item.id + "; yummly</div></td></tr>")}
+					}})
                         })
                     }
               
@@ -416,7 +416,7 @@
 				url: 'http://localhost:3000/blacklist',
 				data: {"entry": recipeId},
 				success: function(data) {
-					alert(info[0] + " deleted!")
+					alert(info[0] + " deleted! You will not see this recipe on your next search!")
 					console.log(data);
 				}
 			})
@@ -428,13 +428,12 @@
 				url: url_priv,
 				data: recipeId,
 				success: function(data) {
-					alert(info[0] + " deleted!")
+					alert(info[0] + " deleted! You will not see this recipe on your next search!")
 					console.log(data);
 				}
 			})
 		}
 	})
-
 	$(".additional-ingredient").on("click", function (){
 		if ($(this).text() != ""){
 			$("#list").text($("#list").text() + ", " + $(this).text());
@@ -471,7 +470,6 @@
 			})
 		}
 	})
-
 	
 </script>
 </html>
