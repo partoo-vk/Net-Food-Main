@@ -2,8 +2,11 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body id="div1">
-	<div id="home">
+	<div id="logout">
 		<img id='logout' src='logout.png' alt='Delete' style='height:30; cursor: pointer;'>
+	</div>
+	<div id="home">
+	
 	  <img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
 
 	  <div id="form">
@@ -409,7 +412,7 @@
 	})
 	
 
-	$('#home').on("click", "#logout", function(){
+	$('#logout').on("click", "#logout", function(){
 			$.ajax({
 				type: "GET",
 				url: 'http://localhost:3000/logout',
