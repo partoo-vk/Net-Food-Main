@@ -31,6 +31,13 @@ MongoClient.connect(url, function(err,res){
 		
 	});
 
+	app.get('/logout', function(req, res) {
+
+		delete req.session.user;
+		res.redirect('/');
+		
+	});
+
 	app.get('/home', function(req, res) {
 		if (!req.session.user) {
 			console.log("not user")

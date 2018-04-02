@@ -3,7 +3,9 @@
 </head>
 <body id="div1">
 	<div id="home">
+		<img id='logout' src='logout.png' alt='Delete' style='height:30; cursor: pointer;'>
 	  <img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
+
 	  <div id="form">
 		<input type="text" id="search" name="firstname" placeholder="Enter an ingredient...">
 		<input type="image" id="submit" name="submit" src="submit.png" alt="Submit"/>
@@ -35,6 +37,7 @@
 	
 	<div id="edit-recipe">
 		<img id="mainLogo" src="NetFoodLogo.png" alt="Net Food Logo">
+
 		<div class="new-recipe-div">
 	    <form class="new-recipe-form">
 	      Recipe name: <input id='Rname2' type="text" name="name"/>
@@ -323,7 +326,7 @@
 						stars = "<img src='./star-orange-md.png' alt='HTML5 Icon' width='10%' height='5%'>".repeat(Number(confirmedR[r].rating));
 						$('#recipes').append("<tr><td class='foodimage'><img src='" + confirmedR[r].photo + "' alt='HTML5 Icon' style='height:60;'></td><td><a href='" +confirmedR[r].recipe
 								+"' style='color:white'>"+confirmedR[r].name+"</a></td><td style='width:15%'>" + stars + "</td><td>" + 
-								confirmedR[r].time + "</td><td style='width:30;'><img id='edit' src='edit.png' alt='Edit'><img id='delete' src='delete.png' alt='Delete'><div style='display:none;'>" +
+								confirmedR[r].time + "</td><td style='width:30;'><input type='image' id='edit' src='edit.png' alt='Edit'><input type='image' id='delete' src='delete.png' alt='Delete'><div style='display:none;'>" +
 								confirmedR[r].name + "; " + confirmedR[r].recipe + "; " + confirmedR[r].photo + "; " + confirmedR[r].rating + "; " +
 								confirmedR[r].time + "; " + confirmedR[r].ingredients + "; " + confirmedR[r]._id + "; private</div></td></tr>")
 						}
@@ -405,6 +408,17 @@
 			$("#edit-recipe").show()})
 	})
 	
+
+	$('#home').on("click", "#logout", function(){
+			$.ajax({
+				type: "GET",
+				url: 'http://localhost:3000/logout',
+				success: function(data) {
+					window.location.replace('http://localhost:3000')
+				}
+			})
+	})
+
 	$('#recipes').on("click", "#delete", function(){
 		info = $(this).next().text().split("; ")
 		recipeId = info[6]
